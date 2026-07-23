@@ -134,24 +134,14 @@
       }
 
       .game-stage {
-        position: relative;
-        width: min(94vw, 470px);
-        height: min(calc(100svh - 126px), calc(94vw * 2.667));
-        min-height: 500px;
-        max-height: 760px;
-        overflow: hidden;
+        width: 100%;
         margin: 0 auto;
       }
 
       canvas {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: min(calc(100svh - 126px), 760px);
-        max-width: 760px;
-        min-width: 500px;
-        transform: translate(-50%, -50%) rotate(90deg);
-        transform-origin: center center;
+        width: 100%;
+        max-height: 48svh;
+        object-fit: contain;
       }
 
       .jump-button {

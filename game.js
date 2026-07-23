@@ -5,7 +5,8 @@ const ctx = canvas.getContext('2d');
 // 游戏逻辑仍使用固定坐标；画布按设备像素比高分辨率渲染，放大后也保持清晰。
 const VIEW_WIDTH = 960;
 const VIEW_HEIGHT = 360;
-const RENDER_SCALE = Math.max(2, Math.min(3, window.devicePixelRatio || 1));
+const IS_COARSE_POINTER = window.matchMedia('(pointer: coarse)').matches;
+const RENDER_SCALE = IS_COARSE_POINTER ? Math.min(1.5, window.devicePixelRatio || 1) : Math.max(2, Math.min(3, window.devicePixelRatio || 1));
 canvas.width = Math.round(VIEW_WIDTH * RENDER_SCALE);
 canvas.height = Math.round(VIEW_HEIGHT * RENDER_SCALE);
 ctx.setTransform(RENDER_SCALE, 0, 0, RENDER_SCALE, 0, 0);
@@ -1281,26 +1282,6 @@ if (jumpButton) {
     }
   });
 }
-
-function syncCanvasLayout() {
-  if (!gameStage) {
-    return;
-  }
-
-  const isPortrait = window.matchMedia('(max-width: 700px) and (orientation: portrait)').matches;
-  if (isPortrait) {
-    const stageHeight = Math.min(window.innerHeight - 126, window.innerWidth * 2.667);
-    gameStage.style.height = `${Math.max(500, Math.min(760, stageHeight))}px`;
-    canvas.style.width = `${Math.min(window.innerHeight - 126, 760)}px`;
-  } else {
-    gameStage.style.height = '';
-    canvas.style.width = '';
-  }
-}
-
-window.addEventListener('resize', syncCanvasLayout);
-window.addEventListener('orientationchange', syncCanvasLayout);
-syncCanvasLayout();
 
 loadBackgroundAssets();
 requestAnimationFrame(drawFrame);
