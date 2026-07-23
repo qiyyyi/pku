@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>火影忍者鸣佐跑酷</title>
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 12px;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #1b1f33, #09111f);
+      color: #f7f6eb;
+      font-family: "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    .wrap {
+      width: min(1240px, 100%);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      letter-spacing: 2px;
+    }
+
+    canvas {
+      display: block;
+      width: min(1200px, 100%);
+      height: auto;
+      margin: 0 auto;
+      border: 4px solid #f5df68;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      background: #7fd0ff;
+      border-radius: 12px;
+      touch-action: manipulation;
+    }
+
+    .jump-button {
+      display: none;
+      width: min(280px, 82vw);
+      min-height: 52px;
+      margin: 12px auto 0;
+      border: 2px solid #ffe56b;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffad45, #db5d32);
+      box-shadow: 0 5px 0 #8f3829, 0 8px 18px rgba(0, 0, 0, 0.3);
+      color: #fff9df;
+      font: bold 20px "Microsoft YaHei", Arial, sans-serif;
+      text-shadow: 0 2px 2px rgba(74, 28, 20, 0.55);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .jump-button:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #8f3829, 0 5px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    /* 胜利结尾时在所有设备显示专用的重新开始按钮。 */
+    .jump-button.is-restart {
+      display: block;
+      background: linear-gradient(180deg, #79c65b, #338847);
+      border-color: #dcff90;
+      box-shadow: 0 5px 0 #1f5933, 0 8px 18px rgba(0, 0, 0, 0.3);
+    }
+
+    .jump-button.is-restart:active {
+      box-shadow: 0 2px 0 #1f5933, 0 5px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .hint {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #dfe7ff;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        display: block;
+        padding: 8px 4px 18px;
+      }
+
+      h1 {
+        margin: 0 0 7px;
+        font-size: 21px;
+        letter-spacing: 1px;
+      }
+
+      canvas {
+        width: 100%;
+        border-width: 3px;
+        border-radius: 8px;
+      }
+
+      .jump-button {
+        display: block;
+      }
+
+      .hint {
+        margin: 9px auto 0;
+        max-width: 94vw;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>火影忍者鸣佐跑酷</h1>
+    <canvas id="gameCanvas" width="960" height="360"></canvas>
+    <button id="jumpButton" class="jump-button" type="button" aria-label="跳跃">跳跃</button>
+    <div class="hint">按 空格 / ↑ / W 跳跃；碰到障碍会失败，吃到金币可加分，目标 7399km</div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
