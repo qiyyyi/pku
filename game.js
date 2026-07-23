@@ -1,4 +1,5 @@
 const canvas = document.getElementById('gameCanvas');
+const gameStage = document.getElementById('gameStage');
 const ctx = canvas.getContext('2d');
 
 // 游戏逻辑仍使用固定坐标；画布按设备像素比高分辨率渲染，放大后也保持清晰。
@@ -1237,7 +1238,20 @@ window.addEventListener('keydown', (event) => {
   }
 });
 
-canvas.addEventListener('click', () => {
+function isPortraitStageClick(event) {
+  if (!gameStage || window.matchMedia('(orientation: landscape)').matches) {
+    return true;
+  }
+
+  const rect = gameStage.getBoundingClientRect();
+  return event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+}
+
+canvas.addEventListener('click', (event) => {
+  if (!isPortraitStageClick(event)) {
+    return;
+  }
+
   if (state === 'ready' || state === 'failure') {
     startGame();
   } else if (state === 'playing') {
@@ -1267,6 +1281,26 @@ if (jumpButton) {
     }
   });
 }
+
+function syncCanvasLayout() {
+  if (!gameStage) {
+    return;
+  }
+
+  const isPortrait = window.matchMedia('(max-width: 700px) and (orientation: portrait)').matches;
+  if (isPortrait) {
+    const stageHeight = Math.min(window.innerHeight - 126, window.innerWidth * 2.667);
+    gameStage.style.height = `${Math.max(500, Math.min(760, stageHeight))}px`;
+    canvas.style.width = `${Math.min(window.innerHeight - 126, 760)}px`;
+  } else {
+    gameStage.style.height = '';
+    canvas.style.width = '';
+  }
+}
+
+window.addEventListener('resize', syncCanvasLayout);
+window.addEventListener('orientationchange', syncCanvasLayout);
+syncCanvasLayout();
 
 loadBackgroundAssets();
 requestAnimationFrame(drawFrame);
